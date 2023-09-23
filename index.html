@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>A9BOT</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+      	background-color: #f9f9fb;
+      	color: #333;
+      	font-family: Arial, Helvetica, sans-serif;
+      	padding-left: 10px;
+      	padding-right: 10px;
+      	display: flex;
+      	flex-direction: column;
+      	justify-content: center;
+      	align-items: center;
+      }
+      .container {
+      	width: 100%;
+      	max-width: 600px;
+      }
+      .brand {
+      	text-align: center;
+      	font-family: HelveticaNeue-CondensedBlack, Arial, Helvetica, sans-serif;
+      	font-size: 40px;
+      }
+      .field-row>button {
+      	width: 120px;
+      }
+      .field {
+      	margin-top: 20px;
+      	margin-bottom: 20px;
+      }
+      .field-title {
+      	margin-top: 5px;
+      	margin-bottom: 0px;
+      	font-size: 20px;
+      	text-align: center;
+      }
+      .buttons {
+      	display: grid;
+      	grid-template-columns: auto auto;
+      	grid-column-gap: 10px;
+      	grid-row-gap: 2px;
+      	justify-content: center;
+      }
+      button {
+      	font-size: 14px;
+      	padding: 5px 10px;
+      	margin-top: 5px;
+      	margin-bottom: 5px;
+      	background-color: #d0d0d0;
+      	color: #000;
+      	border: 2x solid #b0b0b0;
+      }
+      .copyright {
+      	text-align: center;
+      	margin-top: 20px;
+      	font-size: 12px;
+      	color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="content">
+      <div class="container">
+        <h1 class="brand">A9BOT</h1>
+        <div class="field">
+          <div class="field-title">Welcome to A9Bot Repo</div>
+          <div class="buttons">
+            <button
+              onclick="location.href='cydia://url/https://cydia.saurik.com/api/share#?source=https://repo.a9bot.net';"
+            >
+              Open in "Cydia"
+            </button>
+          </div>
+          <span id="ocy"></span>
+        </div>
+        <hr />
+        <h4>Packages on A9Bot Repo</h4>
+        <div id="samples" style="width:100%"></div>
+        <script type="text/javascript">
+          is_ios = (navigator.userAgent.match(/iPad/i) != null) || (navigator.userAgent.match(/iPhone/i) != null) || (navigator.userAgent.match(/iPod/i) != null);
+          if (!is_ios) document.getElementById('ocy').innerHTML = ' Supported jailbroken iOS devices only - iPhone 6s/7/8 (Plus) & SE (2020) ';
+          function Apt_package() {
+          	this.Package;
+          	this.Version;
+          	this.Section;
+          	this.Installed_Size;
+          	this.Description;
+          	this.Name;
+          	this.Author;
+          	this.Filename;
+          	this.Depiction;
+          }
+          function parsePackage(string) {
+          	var a_package = new Apt_package();
+          	var lines = string.split('\n');
+          	var c;
+          	for (c = 0; c < lines.length; ++c) {
+          		var line = lines[c];
+          		if (line.search(':') == -1) continue;
+          		var components = line.split(':');
+          		var key = components.shift();
+          		var value = components.join(':').trim();
+          		switch (key) {
+          			case 'Package':
+          				a_package.Package = value;
+          				break;
+          			case 'Version':
+          				a_package.Version = value;
+          				break;
+          			case 'Section':
+          				a_package.Section = value;
+          				break;
+          			case 'Installed-Size':
+          				a_package.Installed_Size = value;
+          				break;
+          			case 'Description':
+          				a_package.Description = value;
+          				break;
+          			case 'Name':
+          				a_package.Name = value;
+          				break;
+          			case 'Author':
+          				a_package.Author = value;
+          				break;
+          			case 'Filename':
+          				a_package.Filename = value;
+          				break;
+          			case 'Depiction':
+          				a_package.Depiction = value;
+          				break;
+          			default:
+          				break;
+          		}
+          	}
+          	if (a_package.Package == undefined) return undefined;
+          	return a_package;
+          }
+          function parsePackages(parse) {
+          	var depictions = {};
+          	while (parse.indexOf('\r') >= 0) parse = parse.replace('\r', '');
+          	var packages = parse.split('\n\n');
+          	for (var c = 0; c < packages.length; ++c) {
+          		var a_package = parsePackage(packages[c]);
+          		if (a_package == undefined) continue;
+          		var pid = a_package.Package;
+          		if (depictions[pid] && (parseFloat(a_package.Version) >= parseFloat(depictions[pid].Version))) {
+          			depictions[pid] = a_package;
+          		} else if (depictions[pid] == undefined) {
+          			depictions[pid] = a_package;
+          		}
+          	}
+              return depictions;
+          }
+          var xhr;
+          if (window.XMLHttpRequest) {
+              xhr = new XMLHttpRequest();
+          } else if (window.ActiveXObject) {
+              xhr = new ActiveXObject('Microsoft.XMLHTTP');
+          }
+          xhr.onreadystatechange = function() {
+          	if (!(xhr.readyState == 4)) return;
+          	var depictionArray = parsePackages(xhr.responseText);
+          	if (!depictionArray) return;
+          	for (key in depictionArray) {
+          		var pack = depictionArray[key];
+          		document.getElementById('samples').innerHTML = document.getElementById('samples').innerHTML +
+          			'<a href="javascript:var e = document.getElementById(\'u_' + pack.Package + '\'); e.style.display = e.style.display= (e.style.display == \'block\' ? \'none\' : \'block\');">' +
+          			pack.Name + ' (' + pack.Version + ')</a><br>' +
+          			'<div id="u_' + pack.Package + '" style="display:none;">' +
+          			'&nbsp;&nbsp;' + pack.Description + '<br>' +
+          			(is_ios ? '&nbsp;&nbsp;<a href="' +  'cydia://url/https://cydia.saurik.com/api/share#?source=https://repo.a9bot.net/&package=' + pack.Package + '" target="_blank">Show in Cydia</a><br>' : '') +
+          			'&nbsp;&nbsp;<a href="' + pack.Depiction + '" target="_blank">Show more info</a><br>' +
+          			'&nbsp;&nbsp;<a href="' + pack.Filename + '" target="_blank">Download the .deb package</a><br><br>' +
+          			'</div>';
+          	}
+          };
+          xhr.open("GET","Packages");
+          xhr.send();
+        </script>
+        <br />
+        <hr />
+        <p><b>Bank Transfer (Vietnam)</b></p>
+        <li>Version 2: 499,000 VND/LICENSE</li>
+        <li>Version 3: 999,000 VND/LICENSE (with DS and RT)</li><br>
+        &nbsp;BIDV: 7210162251<br>
+        &nbsp;MBBANK: 1280128789999<br>
+        &nbsp;SACOMBANK: 070037329108<br><br>
+        &nbsp;TRAN HAI LONG<br>
+        &nbsp;BEN TRE<br>
+        <p><b>Paypal (Global)</b></p>
+        <li>Version 2: 19.99 USD/LICENSE</li>
+        <li>Version 3: 39.99 USD/LICENSE (with DS and RT)</li><br>
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+        <input name="cmd" type="hidden" value="_s-xclick" />
+        <input name="hosted_button_id" type="hidden" value="UJDDRRMXZEMSL" />
+        <table>
+        <tbody><tr><td><input name="on0" type="hidden" value="Serial Number:" />Serial Number:</td></tr><tr><td><input maxlength="12" name="os0" type="text" /></td></tr>
+        <tr><td><input name="on1" type="hidden" value="Email:" />Email:</td></tr><tr><td><input maxlength="200" name="os1" type="text" /></td></tr>
+        </tbody></table>
+        <input alt="PayPal - The safer, easier way to pay online!" border="0" name="submit" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" type="image" />
+        <img alt="" border="0" height="1" src="https://www.paypalobjects.com/vi_VN/i/scr/pixel.gif" width="1" />
+        </form>
+        <p><b>Required Information</b></p>
+        <li>Serial Number:&nbsp;(The serial number of the device you want to register)</li>
+        <li>Email:&nbsp;(The email address you want to receive the license of A9Bot)</li>
+        <div class="copyright">Copyright © 2023 A9Bot. All rights reserved.</div>
+      </div>
+    </div>
+  </body>
+</html>

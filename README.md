@@ -1,1 +1,1 @@
-# A9BOT REPO | A9Bot Repo from a9bot.net
+# A9Bot Repo

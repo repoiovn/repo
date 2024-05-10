@@ -1,35 +1,18 @@
-Package: net.a9bot.a9botdsupdate
-Version: 1.0.0
+Package: net.a9bot.a9bot
+Version: 3.1.3-2
 Architecture: iphoneos-arm
 Maintainer: A9Bot <a9bot.net@gmail.com>
-Filename: deb-files/a9botdsupdate/net.a9bot.a9botdsupdate_1.0.0_iphoneos-arm.deb
-Size: 1904
-MD5sum: 700936ca5925977dfa5f5e47da8cedc8
-SHA1: 09482d6818ff63caf486b5daf9b01b9a640301ef
-SHA256: 6d5fb610cf88b4e3621497d829b506ec8d4e7ede1cac011c41f9bfc7e41c2ae7
+Filename: deb-files/a9bot/net.a9bot.a9bot_3.1.3-2_iphoneos-arm.deb
+Size: 2122
+MD5sum: d7b9c11206cb04db11769a50a69e18ea
+SHA1: 7a90625066df43d990380356373f7a6f10b698dd
+SHA256: cd246445791b25ba1c0926cf5c5fddc653296977c93318bff931f2e98585c239
 Section: Utilities
-Homepage: https://repo.a9bot.net/deb-files/a9botdsupdate/index.html
-Description: Update the latest version of A9BotDS.
-Author: A9Bot <a9bot.net@gmail.com>
-Depiction: https://repo.a9bot.net/deb-files/a9botdsupdate/index.html
-Name: A9BotDS Update
-Sponsor: A9Bot <a9bot.net@gmail.com>
-
-Package: net.a9bot.a9botupdate
-Version: 1.0.1
-Architecture: iphoneos-arm
-Maintainer: A9Bot <a9bot.net@gmail.com>
-Filename: deb-files/a9botupdate/net.a9bot.a9botupdate_1.0.1_iphoneos-arm.deb
-Size: 1894
-MD5sum: 474e3b2ddf524dbbea3c10c521a70691
-SHA1: 79672952d7d4f3259e6402cfb1c66a1153855892
-SHA256: 256434c98918393f35aed4f2378a33cf69e3efa637955dd854361af96ef3998c
-Section: Utilities
-Homepage: https://repo.a9bot.net/deb-files/a9botupdate/index.html
+Homepage: https://repo.a9bot.net/deb-files/a9bot/index.html
 Description: Update the latest version of A9Bot.
 Author: A9Bot <a9bot.net@gmail.com>
-Depiction: https://repo.a9bot.net/deb-files/a9botupdate/index.html
-Name: A9Bot Update
+Depiction: https://repo.a9bot.net/deb-files/a9bot/index.html
+Name: A9Bot
 Sponsor: A9Bot <a9bot.net@gmail.com>
 
 Package: net.a9bot.adsspeed

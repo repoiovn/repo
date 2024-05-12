@@ -79,7 +79,7 @@
 			<div class="field">
 				<div class="field-title">Welcome to repo.io.vn</div>
 				<div class="buttons">
-					<button onclick="location.href='cydia://url/https://cydia.saurik.com/api/share#?source=https://repo.a9bot.net';"> Open in "Cydia" </button>
+					<button onclick="location.href='cydia://url/https://cydia.saurik.com/api/share#?source=https://repo.io.vn';"> Open in "Cydia" </button>
 				</div> <span id="ocy"></span> </div>
 			<hr />
 			<h4>Packages on repo.io.vn</h4>
@@ -174,7 +174,7 @@
 				if(!depictionArray) return;
 				for(key in depictionArray) {
 					var pack = depictionArray[key];
-					document.getElementById('samples').innerHTML = document.getElementById('samples').innerHTML + '<a href="javascript:var e = document.getElementById(\'u_' + pack.Package + '\'); e.style.display = e.style.display= (e.style.display == \'block\' ? \'none\' : \'block\');">' + pack.Name + ' (' + pack.Version + ')</a><br>' + '<div id="u_' + pack.Package + '" style="display:none;">' + '&nbsp;&nbsp;' + pack.Description + '<br>' + (is_ios ? '&nbsp;&nbsp;<a href="' + 'cydia://url/https://cydia.saurik.com/api/share#?source=https://repo.a9bot.net/&package=' + pack.Package + '" target="_blank">Show in Cydia</a><br>' : '') + '&nbsp;&nbsp;<a href="' + pack.Depiction + '" target="_blank">Show more info</a><br>' + '&nbsp;&nbsp;<a href="' + pack.Filename + '" target="_blank">Download the .deb package</a><br><br>' + '</div>';
+					document.getElementById('samples').innerHTML = document.getElementById('samples').innerHTML + '<a href="javascript:var e = document.getElementById(\'u_' + pack.Package + '\'); e.style.display = e.style.display= (e.style.display == \'block\' ? \'none\' : \'block\');">' + pack.Name + ' (' + pack.Version + ')</a><br>' + '<div id="u_' + pack.Package + '" style="display:none;">' + '&nbsp;&nbsp;' + pack.Description + '<br>' + (is_ios ? '&nbsp;&nbsp;<a href="' + 'cydia://url/https://cydia.saurik.com/api/share#?source=https://repo.io.vn/&package=' + pack.Package + '" target="_blank">Show in Cydia</a><br>' : '') + '&nbsp;&nbsp;<a href="' + pack.Depiction + '" target="_blank">Show more info</a><br>' + '&nbsp;&nbsp;<a href="' + pack.Filename + '" target="_blank">Download the .deb package</a><br><br>' + '</div>';
 				}
 			};
 			xhr.open("GET", "Packages");

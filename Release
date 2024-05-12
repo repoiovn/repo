@@ -1,8 +1,8 @@
-Origin: A9Bot
-Label: A9Bot's Repo
-Suite: stable
-Version: 1.0
-Codename: a9botrepo
-Architectures: iphoneos-arm
-Components: main
-Description: A9Bot's Cydia Repository
+Origin: REPOIOVN
+Label: REPO.IO.VN
+Suite: stable
+Version: 1.0
+Codename: repoiovn
+Architectures: iphoneos-arm
+Components: main
+Description: Repoiovn's Cydia Repository

@@ -1,57 +1,37 @@
-Package: net.a9bot.a9bot
-Version: 3.1.3-2
+Package: vn.io.repo.a9bot
+Version: 3.1.4
 Architecture: iphoneos-arm
-Maintainer: A9Bot <a9bot.net@gmail.com>
-Filename: deb-files/a9bot/net.a9bot.a9bot_3.1.3-2_iphoneos-arm.deb
-Size: 2122
-MD5sum: d7b9c11206cb04db11769a50a69e18ea
-SHA1: 7a90625066df43d990380356373f7a6f10b698dd
-SHA256: cd246445791b25ba1c0926cf5c5fddc653296977c93318bff931f2e98585c239
+Maintainer: A9Bot <repoiovn@gmail.com>
+Filename: deb-files/a9bot/vn.io.repo.a9bot_3.1.4_iphoneos-arm.deb
+Size: 2226
+MD5sum: c465afd5b2f079a0d31d392e8134603b
+SHA1: fe7ccffa44397df38877bb37788ffc546e317350
+SHA256: d114cfd752eecddaa07e26bb4074f6b5b1084f4679d8d232e988b4e6a034b587
 Section: Utilities
-Homepage: https://repo.a9bot.net/deb-files/a9bot/index.html
+Homepage: https://repo.io.vn/deb-files/a9bot/index.html
 Description: Update the latest version of A9Bot.
-Author: A9Bot <a9bot.net@gmail.com>
-Depiction: https://repo.a9bot.net/deb-files/a9bot/index.html
+Author: A9Bot <repoiovn@gmail.com>
+Depiction: https://repo.io.vn/deb-files/a9bot/index.html
 Name: A9Bot
-Sponsor: A9Bot <a9bot.net@gmail.com>
+Sponsor: A9Bot <repoiovn@gmail.com>
 
-Package: net.a9bot.adsspeed
+Package: vn.io.repo.adsspeed
 Version: 1.0.4-3
 Architecture: iphoneos-arm
-Maintainer: A9Bot <a9bot.net@gmail.com>
+Maintainer: REPOIOVN <repoiovn@gmail.com>
 Depends: mobilesubstrate(>= 0.9.5015), preferenceloader(>= 2.2.2), applist
 Conflicts: com.yourepo.lenglengyu.adsspeed
-Filename: deb-files/adsspeed/net.a9bot.adsspeed_1.0.4-3_iphoneos-arm.deb
-Size: 204670
-MD5sum: 8fba89a49a7e4dd31def03d6d0a88e8a
-SHA1: f3d2ef6401abf29e51f2f5b4cca1ac28c4f34b24
-SHA256: 540dda7dca5a49f8dd563d572fb3e18882e547e8f6cfe7add44f09a45f1f1793
+Filename: deb-files/adsspeed/vn.io.repo.adsspeed_1.0.4-3_iphoneos-arm.deb
+Size: 204652
+MD5sum: 3930a4801de4785d326388e29d6f8c5b
+SHA1: e63197b45e2151bca771d1606494174140007f4a
+SHA256: 6f417d0d3c61e6107b0f35b89cbfea993bb786fd210f92f483778474dc0e178a
 Section: Tweaks
-Homepage: https://repo.a9bot.net/deb-files/adsspeed/index.html
+Homepage: https://repo.io.vn/deb-files/adsspeed/index.html
 Description: Quickly skip rewarded video ads in games. No need to wait 15 seconds or more. Claim your reward right away.
 Author: lenglengyu <lenglengyu@126.com>
-Depiction: https://repo.a9bot.net/deb-files/adsspeed/index.html
+Depiction: https://repo.io.vn/deb-files/adsspeed/index.html
 Icon: file:///Library/PreferenceBundles/adsspeed.bundle/icon@2x.png
 Name: VideoAdsSpeed
-Sponsor: A9Bot <a9bot.net@gmail.com>
-
-Package: net.a9bot.autotouch
-Version: 7.1.6
-Architecture: iphoneos-arm
-Maintainer: A9Bot <a9bot.net@gmail.com>
-Depends: firmware (>= 9.0), mobilesubstrate
-Conflicts: com.repo.xarold.com.autotouch8, repo.biteyourapple.net.autotouch8, repo.biteyourapple.net.autotouch, com.hackyouriphone.autotouch8
-Filename: deb-files/autotouch/net.a9bot.autotouch_7.1.6_iphoneos-arm.deb
-Size: 47922074
-MD5sum: 4759dabfb03f785bf6a355776a5b0fd9
-SHA1: 77b645d898988fe25f61833330660da546a65b59
-SHA256: f49b8fc27739338994874a9130483bdcd40787c5bd54abf71f6d900c19869cb1
-Section: Utilities
-Homepage: https://repo.a9bot.net/deb-files/autotouch/index.html
-Description: Record and playback touch operations, play macro scripts automatically.
-Author: Kent Krantz <kentkrantz@gmail.com>
-Depiction: https://repo.a9bot.net/deb-files/autotouch/index.html
-Icon: https://cydia.saurik.com/icon/me.autotouch.autotouch.ios8.png
-Name: AutoTouch
-Sponsor: A9Bot <a9bot.net@gmail.com>
+Sponsor: REPOIOVN <repoiovn@gmail.com>
 

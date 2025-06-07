@@ -1,262 +1,268 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>REPO.IO.VN</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        background-color: #f9f9fb;
+        color: #333;
+        font-family: Arial, Helvetica, sans-serif;
+        padding-left: 10px;
+        padding-right: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
 
-<head>
-	<title>REPO.IO.VN</title>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<style>
-	body {
-		background-color: #f9f9fb;
-		color: #333;
-		font-family: Arial, Helvetica, sans-serif;
-		padding-left: 10px;
-		padding-right: 10px;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-	}
-	
-	.container {
-		width: 100%;
-		max-width: 600px;
-	}
-	
-	.brand {
-		text-align: center;
-		font-family: HelveticaNeue-CondensedBlack, Arial, Helvetica, sans-serif;
-		font-size: 40px;
-	}
-	
-	.field-row>button {
-		width: 120px;
-	}
-	
-	.field {
-		margin-top: 20px;
-		margin-bottom: 20px;
-	}
-	
-	.field-title {
-		margin-top: 5px;
-		margin-bottom: 0px;
-		font-size: 20px;
-		text-align: center;
-	}
-	
-	.buttons {
-		display: grid;
-		grid-template-columns: auto auto;
-		grid-column-gap: 10px;
-		grid-row-gap: 2px;
-		justify-content: center;
-	}
-	
-	button {
-		font-size: 14px;
-		padding: 5px 10px;
-		margin-top: 5px;
-		margin-bottom: 5px;
-		background-color: #d0d0d0;
-		color: #000;
-		border: 2x solid #b0b0b0;
-	}
-	
-	.copyright {
-		text-align: center;
-		margin-top: 20px;
-		font-size: 12px;
-		color: #333;
-	}
-	</style>
-</head>
+      .container {
+        width: 100%;
+        max-width: 600px;
+      }
 
-<body>
-	<div id="content">
-		<div class="container">
-			<h1 class="brand"><a href="index.html"><img src="repoiovn.png" alt="REPO.IO.VN" width="100"></a></h1>
-			<div class="field">
-				<div class="field-title">Welcome to repo.io.vn</div>
-				<div class="buttons">
-					<button onclick="location.href='cydia://url/https://cydia.saurik.com/api/share#?source=https://repo.io.vn';"> Open in "Cydia" </button>
-				</div> <span id="ocy"></span> </div>
-			<hr />
-			<h4>Packages on repo.io.vn</h4>
-			<div id="samples" style="width:100%"></div>
-			<script type="text/javascript">
-			is_ios = (navigator.userAgent.match(/iPad/i) != null) || (navigator.userAgent.match(/iPhone/i) != null) || (navigator.userAgent.match(/iPod/i) != null);
-			if(!is_ios) document.getElementById('ocy').innerHTML = ' Supported jailbroken iOS devices only - iPhone 7 Plus & 8 Plus ';
+      .brand {
+        text-align: center;
+        font-family: HelveticaNeue-CondensedBlack, Arial, Helvetica, sans-serif;
+        font-size: 40px;
+      }
 
-			function Apt_package() {
-				this.Package;
-				this.Version;
-				this.Section;
-				this.Installed_Size;
-				this.Description;
-				this.Name;
-				this.Author;
-				this.Filename;
-				this.Depiction;
-			}
+      .field-row>button {
+        width: 120px;
+      }
 
-			function parsePackage(string) {
-				var a_package = new Apt_package();
-				var lines = string.split('\n');
-				var c;
-				for(c = 0; c < lines.length; ++c) {
-					var line = lines[c];
-					if(line.search(':') == -1) continue;
-					var components = line.split(':');
-					var key = components.shift();
-					var value = components.join(':').trim();
-					switch(key) {
-						case 'Package':
-							a_package.Package = value;
-							break;
-						case 'Version':
-							a_package.Version = value;
-							break;
-						case 'Section':
-							a_package.Section = value;
-							break;
-						case 'Installed-Size':
-							a_package.Installed_Size = value;
-							break;
-						case 'Description':
-							a_package.Description = value;
-							break;
-						case 'Name':
-							a_package.Name = value;
-							break;
-						case 'Author':
-							a_package.Author = value;
-							break;
-						case 'Filename':
-							a_package.Filename = value;
-							break;
-						case 'Depiction':
-							a_package.Depiction = value;
-							break;
-						default:
-							break;
-					}
-				}
-				if(a_package.Package == undefined) return undefined;
-				return a_package;
-			}
+      .field {
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
 
-			function parsePackages(parse) {
-				var depictions = {};
-				while(parse.indexOf('\r') >= 0) parse = parse.replace('\r', '');
-				var packages = parse.split('\n\n');
-				for(var c = 0; c < packages.length; ++c) {
-					var a_package = parsePackage(packages[c]);
-					if(a_package == undefined) continue;
-					var pid = a_package.Package;
-					if(depictions[pid] && (parseFloat(a_package.Version) >= parseFloat(depictions[pid].Version))) {
-						depictions[pid] = a_package;
-					} else if(depictions[pid] == undefined) {
-						depictions[pid] = a_package;
-					}
-				}
-				return depictions;
-			}
-			var xhr;
-			if(window.XMLHttpRequest) {
-				xhr = new XMLHttpRequest();
-			} else if(window.ActiveXObject) {
-				xhr = new ActiveXObject('Microsoft.XMLHTTP');
-			}
-			xhr.onreadystatechange = function() {
-				if(!(xhr.readyState == 4)) return;
-				var depictionArray = parsePackages(xhr.responseText);
-				if(!depictionArray) return;
-				for(key in depictionArray) {
-					var pack = depictionArray[key];
-					document.getElementById('samples').innerHTML = document.getElementById('samples').innerHTML + '<a href="javascript:var e = document.getElementById(\'u_' + pack.Package + '\'); e.style.display = e.style.display= (e.style.display == \'block\' ? \'none\' : \'block\');">' + pack.Name + ' (' + pack.Version + ')</a><br>' + '<div id="u_' + pack.Package + '" style="display:none;">' + '&nbsp;&nbsp;' + pack.Description + '<br>' + (is_ios ? '&nbsp;&nbsp;<a href="' + 'cydia://url/https://cydia.saurik.com/api/share#?source=https://repo.io.vn/&package=' + pack.Package + '" target="_blank">Show in Cydia</a><br>' : '') + '&nbsp;&nbsp;<a href="' + pack.Depiction + '" target="_blank">Show more info</a><br>' + '&nbsp;&nbsp;<a href="' + pack.Filename + '" target="_blank">Download the .deb package</a><br><br>' + '</div>';
-				}
-			};
-			xhr.open("GET", "Packages");
-			xhr.send();
-			</script>
-			<br />
-			<hr />
-			<h2><b>Price of ALUBOT License</b></h2>
-			<p><b>Bank Transfer (Vietnam)</b></p>
-			<li>ALUBOT 1.x.x LITE: 380,000 VND/LICENSE</li>
-			<li>ALUBOT 1.x.x FULL: 500,000 VND/LICENSE</li>
-			<li>Upgrade ALUBOT 1.x.x LITE to ALUBOT 1.x.x FULL: 130,000 VND/LICENSE</li>
-			<li>Upgrade A9BOT 2.x.x / A9BOT 3.x.x LITE to ALUBOT 1.x.x LITE: FREE</li>
-			<br> BIDV: 7210162251
-			<br> MBBANK: 1280128789999
-			<br> SACOMBANK: 070037329108
-			<br>
-			<br> TRAN HAI LONG
-			<br>
-			<p><b>Paypal (Global)</b></p>
-			<li>ALUBOT 1.x.x LITE: 15.99 USD/LICENSE</li>
-			<li>ALUBOT 1.x.x FULL: 20.99 USD/LICENSE</li>
-			<li>Upgrade ALUBOT 1.x.x LITE to ALUBOT 1.x.x FULL: 5.99 USD/LICENSE</li>
-			<li>Upgrade A9BOT 2.x.x / A9BOT 3.x.x LITE to ALUBOT 1.x.x LITE: FREE</li>
-			<br>
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-  <input type="hidden" name="cmd" value="_s-xclick" />
-  <input type="hidden" name="hosted_button_id" value="UJDDRRMXZEMSL" />
-  <table>
-    <tr>
-      <td>
-        <input type="hidden" name="on0" value="ALUBOT - LIFETIME LICENSE"/>
-        ALUBOT - LIFETIME LICENSE
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <select name="os0">
-          <option value="ALUBOT LITE:">
-            ALUBOT LITE: 15,99 $ USD
-          </option>
-          <option value="ALUBOT FULL:">
-            ALUBOT FULL: 20,99 $ USD
-          </option>
-          <option value="LITE to FULL:">
-            LITE to FULL: 5,99 $ USD
-          </option>
-        </select>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <input type="hidden" name="on1" value="Serial Number:"/>
-        Serial Number:
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <input type="text" name="os1" maxLength="200" />
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <input type="hidden" name="on2" value="Email:"/>
-        Email:
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <input type="text" name="os2" maxLength="200" />
-      </td>
-    </tr>
-  </table>
-  <input type="hidden" name="currency_code" value="USD" />
-  <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Buy Now" />
-</form>
-			<p><b>Required Information</b></p>
-			<li>Serial Number: (The serial number of the jailbroken device you want to register)</li>
-			<li>Email: (The email address you want to receive the License Key)</li>
-			<div class="copyright">Copyright © <script>document.write(new Date().getFullYear())</script> repo.io.vn. All rights reserved.</div>
-		</div>
-	</div>
-</body>
+      .field-title {
+        margin-top: 5px;
+        margin-bottom: 0px;
+        font-size: 20px;
+        text-align: center;
+      }
 
+      .buttons {
+        display: grid;
+        grid-template-columns: auto auto;
+        grid-column-gap: 10px;
+        grid-row-gap: 2px;
+        justify-content: center;
+      }
+
+      button {
+        font-size: 14px;
+        padding: 5px 10px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        background-color: #d0d0d0;
+        color: #000;
+        border: 2x solid #b0b0b0;
+      }
+
+      .copyright {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 12px;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="content">
+      <div class="container">
+        <h1 class="brand">
+          <a href="index.html">
+            <img src="repoiovn.png" alt="REPO.IO.VN" width="100">
+          </a>
+        </h1>
+        <div class="field">
+          <div class="field-title">Welcome to repo.io.vn</div>
+          <div class="buttons">
+            <button onclick="location.href='cydia://url/https://cydia.saurik.com/api/share#?source=https://repo.io.vn';"> Open in "Cydia" </button>
+          </div>
+          <span id="ocy"></span>
+        </div>
+        <hr />
+        <h4>Packages on repo.io.vn</h4>
+        <div id="samples" style="width:100%"></div>
+        <script type="text/javascript">
+          is_ios = (navigator.userAgent.match(/iPad/i) != null) || (navigator.userAgent.match(/iPhone/i) != null) || (navigator.userAgent.match(/iPod/i) != null);
+          if (!is_ios) document.getElementById('ocy').innerHTML = ' Supported jailbroken iOS devices only - iPhone 7 Plus & 8 Plus ';
+
+          function Apt_package() {
+            this.Package;
+            this.Version;
+            this.Section;
+            this.Installed_Size;
+            this.Description;
+            this.Name;
+            this.Author;
+            this.Filename;
+            this.Depiction;
+          }
+
+          function parsePackage(string) {
+            var a_package = new Apt_package();
+            var lines = string.split('\n');
+            var c;
+            for (c = 0; c < lines.length; ++c) {
+              var line = lines[c];
+              if (line.search(':') == -1) continue;
+              var components = line.split(':');
+              var key = components.shift();
+              var value = components.join(':').trim();
+              switch (key) {
+                case 'Package':
+                  a_package.Package = value;
+                  break;
+                case 'Version':
+                  a_package.Version = value;
+                  break;
+                case 'Section':
+                  a_package.Section = value;
+                  break;
+                case 'Installed-Size':
+                  a_package.Installed_Size = value;
+                  break;
+                case 'Description':
+                  a_package.Description = value;
+                  break;
+                case 'Name':
+                  a_package.Name = value;
+                  break;
+                case 'Author':
+                  a_package.Author = value;
+                  break;
+                case 'Filename':
+                  a_package.Filename = value;
+                  break;
+                case 'Depiction':
+                  a_package.Depiction = value;
+                  break;
+                default:
+                  break;
+              }
+            }
+            if (a_package.Package == undefined) return undefined;
+            return a_package;
+          }
+
+          function parsePackages(parse) {
+            var depictions = {};
+            while (parse.indexOf('\r') >= 0) parse = parse.replace('\r', '');
+            var packages = parse.split('\n\n');
+            for (var c = 0; c < packages.length; ++c) {
+              var a_package = parsePackage(packages[c]);
+              if (a_package == undefined) continue;
+              var pid = a_package.Package;
+              if (depictions[pid] && (parseFloat(a_package.Version) >= parseFloat(depictions[pid].Version))) {
+                depictions[pid] = a_package;
+              } else if (depictions[pid] == undefined) {
+                depictions[pid] = a_package;
+              }
+            }
+            return depictions;
+          }
+          var xhr;
+          if (window.XMLHttpRequest) {
+            xhr = new XMLHttpRequest();
+          } else if (window.ActiveXObject) {
+            xhr = new ActiveXObject('Microsoft.XMLHTTP');
+          }
+          xhr.onreadystatechange = function() {
+            if (!(xhr.readyState == 4)) return;
+            var depictionArray = parsePackages(xhr.responseText);
+            if (!depictionArray) return;
+            for (key in depictionArray) {
+              var pack = depictionArray[key];
+              document.getElementById('samples').innerHTML = document.getElementById('samples').innerHTML + ' < a href = "javascript:var e = document.getElementById(\'u_' + pack.Package + '\'); e.style.display = e.style.display= (e.style.display == \'block\' ? \'none\' : \'block\');" > ' + pack.Name + '(' + pack.Version + ') < /a> < br > ' + ' < div id = "u_' + pack.Package + '"
+              style = "display:none;" > ' + ' & nbsp; & nbsp;
+              ' + pack.Description + ' < br > ' + (is_ios ? ' & nbsp; & nbsp; < a href = "' + 'cydia://url/https://cydia.saurik.com/api/share#?source=https://repo.io.vn/&package=' + pack.Package + '"
+              target = "_blank" > Show in Cydia < /a> < br > ' : '
+              ') + ' & nbsp; & nbsp; < a href = "' + pack.Depiction + '"
+              target = "_blank" > Show more info < /a> < br > ' + ' & nbsp; & nbsp; < a href = "' + pack.Filename + '"
+              target = "_blank" > Download the.deb package < /a> < br > < br > ' + ' < /div>';
+            }
+          };
+          xhr.open("GET", "Packages");
+          xhr.send();
+        </script>
+        <br />
+        <hr />
+        <h2>
+          <b>Price of ALUBOT License</b>
+        </h2>
+        <p>
+          <b>Bank Transfer (Vietnam)</b>
+        </p>
+        <li>ALUBOT 1.x.x LITE: 380,000 VND/LICENSE</li>
+        <li>ALUBOT 1.x.x FULL: 500,000 VND/LICENSE</li>
+        <li>Upgrade ALUBOT 1.x.x LITE to ALUBOT 1.x.x FULL: 130,000 VND/LICENSE</li>
+        <li>Upgrade A9BOT 2.x.x / A9BOT 3.x.x LITE to ALUBOT 1.x.x LITE: FREE</li>
+        <br> BIDV: 7210162251 <br> MBBANK: 1280128789999 <br> SACOMBANK: 070037329108 <br>
+        <br> TRAN HAI LONG <br>
+        <p>
+          <b>Paypal (Global)</b>
+        </p>
+        <li>ALUBOT 1.x.x LITE: 15.99 USD/LICENSE</li>
+        <li>ALUBOT 1.x.x FULL: 20.99 USD/LICENSE</li>
+        <li>Upgrade ALUBOT 1.x.x LITE to ALUBOT 1.x.x FULL: 5.99 USD/LICENSE</li>
+        <li>Upgrade A9BOT 2.x.x / A9BOT 3.x.x LITE to ALUBOT 1.x.x LITE: FREE</li>
+        <br>
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+          <input type="hidden" name="cmd" value="_s-xclick" />
+          <input type="hidden" name="hosted_button_id" value="UJDDRRMXZEMSL" />
+          <table>
+            <tr>
+              <td>
+                <input type="hidden" name="on0" value="ALUBOT - LIFETIME LICENSE" /> ALUBOT - LIFETIME LICENSE
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <select name="os0">
+                  <option value="ALUBOT LITE:"> ALUBOT LITE: 15,99 $ USD </option>
+                  <option value="ALUBOT FULL:"> ALUBOT FULL: 20,99 $ USD </option>
+                  <option value="LITE to FULL:"> LITE to FULL: 5,99 $ USD </option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="hidden" name="on1" value="Serial Number:" /> Serial Number:
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="text" name="os1" maxLength="200" />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="hidden" name="on2" value="Email:" /> Email:
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="text" name="os2" maxLength="200" />
+              </td>
+            </tr>
+          </table>
+          <input type="hidden" name="currency_code" value="USD" />
+          <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Buy Now" />
+        </form>
+        <p>
+          <b>Required Information</b>
+        </p>
+        <li>Serial Number: (The serial number of the jailbroken device you want to register)</li>
+        <li>Email: (The email address you want to receive the License Key)</li>
+        <div class="copyright">Copyright © <script>
+            document.write(new Date().getFullYear())
+          </script> repo.io.vn. All rights reserved. </div>
+      </div>
+    </div>
+  </body>
 </html>
